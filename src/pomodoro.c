@@ -439,7 +439,8 @@ ZMK_SUBSCRIPTION(pomodoro_any_key, zmk_position_state_changed);
 
 static int pomodoro_init(void) {
     k_work_init_delayable(&minute_tick_work, minute_tick_cb);
-    pomodoro_display_bootstrap(&pomodoro_current_status());
+    struct pomodoro_status status = pomodoro_current_status();
+    pomodoro_display_bootstrap(&status);
     return 0;
 }
 
