@@ -24,7 +24,8 @@ static lv_obj_t *status_label;
 static lv_obj_t *session_label;
 static lv_obj_t *time_label;
 static lv_obj_t *hint_label;
-static lv_obj_t *progress_bar;
+static lv_obj_t *progress_bg;
+static lv_obj_t *progress_fg;
 
 static struct pomodoro_status cached_state;
 static bool cached_force;
@@ -109,9 +110,9 @@ static void apply_state(struct pomodoro_status state, bool force) {
     }
 
     char status_text[8] = "Idle";
-    char session_text[12];
-    char time_text[8];
-    char hint_text[20] = "";
+    char session_text[14];
+    char time_text[9];
+    char hint_text[24] = "";
 
     switch (state.state) {
     case POMODORO_STATE_WORK:
@@ -158,10 +159,18 @@ static void apply_state(struct pomodoro_status state, bool force) {
 
     if (time_changed || force) {
         set_label_text(time_label, time_text);
-        if (lv_bar_get_max_value(progress_bar) != total) {
-            lv_bar_set_range(progress_bar, 0, total);
+        if (!progress_bg || !progress_fg) {
+            goto done;
         }
-        lv_bar_set_value(progress_bar, elapsed, LV_ANIM_OFF);
+        lv_coord_t bg_width = lv_obj_get_width(progress_bg);
+        if (bg_width == 0) {
+            lv_coord_t parent_width = lv_obj_get_width(lv_obj_get_parent(progress_bg));
+            bg_width = parent_width > 8 ? parent_width - 8 : parent_width;
+            lv_obj_set_width(progress_bg, bg_width);
+            lv_obj_set_height(progress_bg, 8);
+        }
+        lv_coord_t fill_width = (total == 0) ? 0 : (bg_width * elapsed) / total;
+        lv_obj_set_width(progress_fg, fill_width);
     }
 
     if (hint_text[0] != '\0') {
@@ -172,6 +181,7 @@ static void apply_state(struct pomodoro_status state, bool force) {
         lv_obj_add_flag(hint_label, LV_OBJ_FLAG_HIDDEN);
     }
 
+done:
     has_drawn = true;
     last_drawn = state;
 }
@@ -194,18 +204,29 @@ static void create_ui(lv_obj_t *parent) {
     lv_obj_set_style_text_font(hint_label, lv_theme_get_font_small(parent), LV_PART_MAIN);
     lv_obj_align(hint_label, LV_ALIGN_BOTTOM_MID, 0, -2);
 
-    progress_bar = lv_bar_create(parent);
     lv_coord_t width = lv_obj_get_width(parent);
     if (width == 0) {
         lv_disp_t *disp = lv_disp_get_default();
         width = lv_disp_get_hor_res(disp);
     }
-    lv_obj_set_size(progress_bar, width - 8, 8);
-    lv_obj_align(progress_bar, LV_ALIGN_BOTTOM_MID, 0, -14);
-    lv_bar_set_range(progress_bar, 0, POMODORO_WORK_SECONDS);
+
+    progress_bg = lv_obj_create(parent);
+    lv_obj_remove_style_all(progress_bg);
+    lv_obj_set_style_bg_opa(progress_bg, LV_OPA_20, LV_PART_MAIN);
+    lv_obj_set_style_bg_color(progress_bg, lv_color_white(), LV_PART_MAIN);
+    lv_obj_set_size(progress_bg, width - 8, 8);
+    lv_obj_align(progress_bg, LV_ALIGN_BOTTOM_MID, 0, -14);
+
+    progress_fg = lv_obj_create(progress_bg);
+    lv_obj_remove_style_all(progress_fg);
+    lv_obj_set_style_bg_opa(progress_fg, LV_OPA_COVER, LV_PART_MAIN);
+    lv_obj_set_style_bg_color(progress_fg, lv_color_white(), LV_PART_MAIN);
+    lv_obj_set_height(progress_fg, lv_obj_get_height(progress_bg));
+    lv_obj_set_width(progress_fg, 0);
+    lv_obj_align(progress_fg, LV_ALIGN_LEFT_MID, 0, 0);
 }
 
-lv_obj_t *zmk_display_status_screen(void) {
+__attribute__((weak)) lv_obj_t *zmk_display_status_screen(void) {
     screen = lv_obj_create(NULL);
     create_ui(screen);
 
