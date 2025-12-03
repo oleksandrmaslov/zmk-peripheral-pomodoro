@@ -3,42 +3,49 @@
         pomo_start: pomo_start {
             compatible = "zmk,behavior-pomodoro";
             label = "POMO_START";
+            #binding-cells = <0>;
             pomo-action = "start";
         };
 
         pomo_pause: pomo_pause {
             compatible = "zmk,behavior-pomodoro";
             label = "POMO_PAUSE";
+            #binding-cells = <0>;
             pomo-action = "pause";
         };
 
         pomo_stop: pomo_stop {
             compatible = "zmk,behavior-pomodoro";
             label = "POMO_STOP";
+            #binding-cells = <0>;
             pomo-action = "stop";
         };
 
         pomo_smart: pomo_smart {
             compatible = "zmk,behavior-pomodoro";
             label = "POMO_SMART";
+            #binding-cells = <0>;
             pomo-action = "smart";
         };
 
         pomo_resume: pomo_resume {
             compatible = "zmk,behavior-pomodoro";
             label = "POMO_RESUME";
+            #binding-cells = <0>;
             pomo-action = "resume";
         };
 
         pomo_break_extend: pomo_break_extend {
             compatible = "zmk,behavior-pomodoro";
             label = "POMO_BREAK_EXTEND";
+            #binding-cells = <0>;
             pomo-action = "break-extend";
         };
 
         pomo_break_skip: pomo_break_skip {
             compatible = "zmk,behavior-pomodoro";
             label = "POMO_BREAK_SKIP";
+            #binding-cells = <0>;
             pomo-action = "break-skip";
         };
     };
