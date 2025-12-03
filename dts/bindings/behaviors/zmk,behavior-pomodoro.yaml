@@ -1,0 +1,21 @@
+# Copyright (c) 2025
+# SPDX-License-Identifier: MIT
+
+description: Pomodoro control behavior
+
+compatible: "zmk,behavior-pomodoro"
+
+include: zero_param.yaml
+
+properties:
+  pomo-action:
+    type: string
+    required: true
+    enum:
+      - start
+      - pause
+      - stop
+      - smart
+      - resume
+      - break-extend
+      - break-skip

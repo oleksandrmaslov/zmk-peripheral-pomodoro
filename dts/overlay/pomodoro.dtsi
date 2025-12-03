@@ -1,0 +1,45 @@
+/ {
+    behaviors {
+        pomo_start: pomo_start {
+            compatible = "zmk,behavior-pomodoro";
+            label = "POMO_START";
+            pomo-action = "start";
+        };
+
+        pomo_pause: pomo_pause {
+            compatible = "zmk,behavior-pomodoro";
+            label = "POMO_PAUSE";
+            pomo-action = "pause";
+        };
+
+        pomo_stop: pomo_stop {
+            compatible = "zmk,behavior-pomodoro";
+            label = "POMO_STOP";
+            pomo-action = "stop";
+        };
+
+        pomo_smart: pomo_smart {
+            compatible = "zmk,behavior-pomodoro";
+            label = "POMO_SMART";
+            pomo-action = "smart";
+        };
+
+        pomo_resume: pomo_resume {
+            compatible = "zmk,behavior-pomodoro";
+            label = "POMO_RESUME";
+            pomo-action = "resume";
+        };
+
+        pomo_break_extend: pomo_break_extend {
+            compatible = "zmk,behavior-pomodoro";
+            label = "POMO_BREAK_EXTEND";
+            pomo-action = "break-extend";
+        };
+
+        pomo_break_skip: pomo_break_skip {
+            compatible = "zmk,behavior-pomodoro";
+            label = "POMO_BREAK_SKIP";
+            pomo-action = "break-skip";
+        };
+    };
+};

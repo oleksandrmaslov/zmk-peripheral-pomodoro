@@ -1,0 +1,39 @@
+menu "Pomodoro"
+
+config ZMK_POMODORO
+    bool "Enable Pomodoro peripheral module"
+    default y
+    help
+      Enables the Pomodoro helper that runs timers on the peripheral side,
+      exposes behaviors for start/pause/stop/smart/resume, and controls the
+      nice!view UI. The central side will compile the behaviors but skip any
+      timers or UI work.
+
+config ZMK_POMODORO_RESUME_ON_ANY_KEY
+    bool "Resume or skip from any key press"
+    default n
+    depends on ZMK_POMODORO
+    help
+      When enabled, any key press on the peripheral during a break or while
+      paused will resume/skip the pomodoro without needing the dedicated key.
+
+config ZMK_POMODORO_BREAK_EXTEND_LIMIT_MINUTES
+    int "Maximum break duration when extending"
+    default 10
+    range 5 30
+    depends on ZMK_POMODORO
+    help
+      Limits how far a break can be extended when pressing the break-extend
+      behavior. The default 10 minutes caps the total break at 10 minutes.
+
+config ZMK_POMODORO_DISPLAY
+    bool "Show Pomodoro UI on nice!view"
+    default y
+    depends on ZMK_POMODORO
+    depends on ZMK_DISPLAY
+    depends on !ZMK_SPLIT_ROLE_CENTRAL
+    help
+      Enables the nice!view UI for the Pomodoro timers. On central builds the
+      UI is disabled to avoid touching LVGL.
+
+endmenu
