@@ -1,5 +1,7 @@
 name: zmk-pomodoro
 build:
+  depends:
+    - zmk
   cmake: .
   kconfig: Kconfig
   settings:

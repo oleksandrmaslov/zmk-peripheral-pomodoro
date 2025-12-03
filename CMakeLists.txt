@@ -1,4 +1,5 @@
 zephyr_include_directories(include)
+zephyr_include_directories(${ZEPHYR_BASE}/../zmk/app/include)
 
 zephyr_library()
 

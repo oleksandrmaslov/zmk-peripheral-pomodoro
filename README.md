@@ -29,6 +29,7 @@ Include `dts/overlay/pomodoro.dtsi` and bind the provided behaviors in your keym
     };
 };
 ```
+
 Available nodes: `&pomo_start`, `&pomo_pause`, `&pomo_stop`, `&pomo_smart`, `&pomo_resume`,
 `&pomo_break_extend`, `&pomo_break_skip`.
 

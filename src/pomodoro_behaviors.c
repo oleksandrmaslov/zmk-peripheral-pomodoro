@@ -2,7 +2,7 @@
 
 #include <zephyr/device.h>
 #include <zephyr/sys/util.h>
-#include <drivers/behavior.h>
+#include <zephyr/drivers/behavior.h>
 #include <zephyr/logging/log.h>
 
 #include <zmk/behavior.h>
